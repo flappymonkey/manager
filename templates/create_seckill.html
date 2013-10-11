@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form method="get" action="/seckill/">
+    <h1>Feed详情页 <input type="submit" value="返回"></h1>
+    <input type="hidden" name="cur_stat" value="{{ cur_stat }}"/>
+    <input type="hidden" name="sort_flag" value="{{ sort_flag }}"/>
+</form>
+<form method="post" action="/create_seckill/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="cur_stat" value="{{cur_stat}}">
+    <input type="hidden" name="sort_flag" value="{{sort_flag}}">
+    <table border="1">
+        <tr>
+            <td valign="top">
+                <p>标题:</p>
+                <textarea type="text" name="title" rows=2 cols=150 placeholder="标题" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>商品链接:</p>
+                <textarea type="text" name="link" rows=2 cols=150 placeholder="商品链接" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>来源:</p>
+                <textarea type="text" name="source" rows=2 cols=150 placeholder="来源" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>上传图片:</p>
+                <p><input type="file" required name="item_img" /></p>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>当前价格:</p>
+                <textarea type="text" name="cur_price" rows=2 cols=150 placeholder="当前价格: 请输入x.xx，如0.98，2.00" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>折扣:</p>
+                <textarea type="text" name="discount" rows=2 cols=150 placeholder="折扣: 请输入x.x或x，如1，2.5" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>限量:</p>
+                <textarea type="text" name="limit" rows=2 cols=150 placeholder="限量，无限了请填入0" required>0</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>进度:</p>
+                <textarea type="text" name="sale_percent" rows=2 cols=150 placeholder="没有进度设置为-1，否则为100以内整数" required>-1</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>开始时间，没有使用默认值0:<input required type="text" value=0 onClick="WdatePicker({minDate:'%y-%M-%d %H-{%m+1}',dateFmt:'yyyy-MM-dd HH:mm'})" name="time_begin"></p>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p><p>开始时间，没有使用默认值0:<input required type="text" value=0 onClick="WdatePicker({minDate:'%y-%M-%d %H-{%m+1}',dateFmt:'yyyy-MM-dd HH:mm'})" name="time_end"></p>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p1><input type="radio" name="stat" value="1">即将开始</p1>
+                <p1><input type="radio" name="stat" value="2" checked="True">进行中</p1>
+                <p1><input type="radio" name="stat" value="3">已失效</p1>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p1><input type="radio" name="up" value="1">置顶</p1>
+                <p1><input type="radio" name="up" value="2" checked="True">非置顶</p1>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+    </table>
+</form>
+<script language="javascript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+</body>
+</html>

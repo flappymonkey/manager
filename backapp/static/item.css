@@ -1,0 +1,44 @@
+body {
+    font-family: arial;
+}
+
+h1, h2 {
+    text-shadow: white 0px 1px 0px;
+    background-color: lightblue;
+}
+h3{
+    text-shadow: white 0px 1px 0px;
+    background-color: silver;
+}
+
+h1 {
+    font-size: xx-large;
+}
+h2 {
+    width: 80%;
+}
+
+ul {
+    list-style : none;
+}
+p {
+    text-shadow: white 0px 1px 0px;
+    background-color: lightgreen;
+    width: 50%;
+
+}
+
+#leftDiv {
+    float: left;
+}
+#rightDiv {
+    float: left;
+}
+
+input[type=submit] {
+    background-color : lightgreen;
+    border-color : lightgreen;
+    text-shadow: white 0px 1px 0px;
+}
+
+.disabled{background:#eee;}

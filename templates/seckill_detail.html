@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form method="get" action="/seckill/">
+    <h1>限时秒杀详情页 <input type="submit" value="返回"></h1>
+    <input type="hidden" name="cur_stat" value="{{item.stat}}">
+    <input type="hidden" name="sort_flag" value="{{item.sort_flag}}">
+</form>
+<form method="post" action="/seckill_detail/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{item.id}}">
+    <input type="hidden" name="cur_stat" value="{{item.stat}}">
+    <input type="hidden" name="sort_flag" value="{{item.sort_flag}}">
+<table border="1">
+    <tr>
+        <td valign="top">
+            <p>标题:</p>
+            <textarea type="text" name="title" rows=2 cols=150 required>{{item.title}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>商品链接:</p>
+            <textarea type="text" name="link" rows=2 cols=150 required>{{item.link}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>来源:{{ item.source }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>图片:</p>
+            <img src="{{item.img}}"  alt=""/>
+            <p>重新上传图片：</p>
+            <p><input type="file" name="item_img" /></p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>原始价格:{{ item.ori_price }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>当前价格:{{ item.cur_price }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>折扣:{{ item.discount }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            {% ifequal item.limit 0 %}
+                <p>限量：无限制</p>
+            {% else %}
+                <p>限量：{{ item.limit }}</p>
+            {% endifequal %}
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p1>销售进度(-1表示无)：</p1>
+                <textarea type="text" name="sale_percent" rows=2 cols=150 required>{{item.sale_percent}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"><p>开始时间：{{ item.time_begin }}</p></td>
+    </tr>
+    <tr>
+        <td valign="top"><p>结束时间：{{ item.time_end }}</p></td>
+    </tr>
+    <tr>
+        <td valign="top">
+            {% ifequal item.stat 1 %}
+                <p1><input type="radio" name="stat" value="1" checked="True">即将开始</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="1">即将开始</p1>
+            {% endifequal %}
+            {% ifequal item.stat 2 %}
+                <p1><input type="radio" name="stat" value="2" checked="True">进行中</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="2">进行中</p1>
+            {% endifequal %}
+            {% ifequal item.stat 3 %}
+                <p1><input type="radio" name="stat" value="3" checked="True">已失效</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="3">已失效</p1>
+            {% endifequal %}
+            {% ifequal item.stat 4 %}
+                <p1><input type="radio" name="stat" value="4" checked="True">删除</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="4">删除</p1>
+            {% endifequal %}
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            {% ifequal item.up 1 %}
+                <p1><input type="radio" name="up" value="1" checked="True">置顶</p1>
+            {% else %}
+                <p1><input type="radio" name="up" value="1">置顶</p1>
+            {% endifequal %}
+            {% ifequal item.up 2 %}
+                <p1><input type="radio" name="up" value="2" checked="True">非置顶</p1>
+            {% else %}
+                <p1><input type="radio" name="up" value="2">非置顶</p1>
+            {% endifequal %}
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <input type="submit" value="提交">
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>

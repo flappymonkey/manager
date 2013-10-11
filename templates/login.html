@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>真TM划算后台管理系统登录</h1>
+<form method = "post" action = "/login/">
+    {% csrf_token %}
+    <p1>用户名：<input type="text" name="username"required></p1><br/>
+    <p1>密  码：<input type="text" name="passwd"required></p1><br/>
+    <input type="submit" value="登录">
+</form>
+</body>
+</html>

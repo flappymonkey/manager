@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+	ServerName wsgi.back2c
+	DocumentRoot /home/prd2c/django_project/back2c
+	Alias /static/ /home/prd2c/django_project/back2c/backapp/static/
+	Alias /js/ /home/prd2c/django_project/back2c/js/
+	<Directory /home/prd2c/django_project/back2c>
+		Order allow,deny
+		Allow from all
+	</Directory>
+	#WSGIDaemonProcess wsgi.back2c processes=2 threads=15 display-name=%{GROUP}
+	#WSGIProcessGroup wsgi.back2c
+	WSGIScriptAlias / /home/prd2c/django_project/back2c/apache/django.wsgi
+</VirtualHost>

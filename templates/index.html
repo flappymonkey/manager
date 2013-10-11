@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>线上发布内容列表</h1>
+<form method = "get" action = "/indexall/">
+    {% csrf_token %}
+    <input type="submit" value="返回管理页">
+</form>
+<form method = "get" action = "/create_feed/">
+    {% csrf_token %}
+    <input type="submit" value="创建feed">
+    <input type="hidden" name="cur_stat" value="{{ cur_stat }}">
+    <input type="hidden" name="cur_flag" value="{{ cur_flag }}">
+</form>
+
+<form method = "post" action = "/index/">
+    {% csrf_token %}
+    <p>输入直达url链接搜索：</p>
+    <p>
+        <input style="width:80%" type="text" name="search_url" value="">
+        <input type="submit" value="搜索">
+    </p>
+    <input type="hidden" name="stat" value="{{ cur_stat }}">
+    <input type="hidden" name="cur_flag" value="{{ cur_flag }}">
+    <input type="hidden" name="is_search" value="1">
+</form>
+
+<form method = "post" action = "/index/">
+    {% csrf_token %}
+<h2>选择状态查询(当前状态为：{{cur_stat_name}}）</h2>
+    <input type="hidden" name="cur_flag" value="{{ cur_flag }}">
+    <input type="hidden" name="is_search" value="0">
+    <select name="stat">
+        {% ifequal cur_flag 0 %}
+            {% ifequal cur_stat 1 %}
+                <option value="1" selected="selected">正常发布</option>
+            {% else %}
+                <option value="1">正常发布</option>
+            {% endifequal %}
+            {% ifequal cur_stat 5 %}
+                <option value="5" selected="selected">预发布</option>
+            {% else %}
+                <option value="5">预发布</option>
+            {% endifequal %}
+            {% ifequal cur_stat 4 %}
+                <option value="4" selected="selected">失效</option>
+            {% else %}
+                <option value="4">失效</option>
+            {% endifequal %}
+            {% ifequal cur_stat 3 %}
+                <option value="3" selected="selected">删除</option>
+            {% else %}
+                <option value="3">删除</option>
+            {% endifequal %}
+        {% endifequal %}
+        {% ifequal cur_flag 1 %}
+            {% ifequal cur_stat 1 %}
+                <option value="1" selected="selected">置顶</option>
+            {% else %}
+                <option value="1">置顶</option>
+            {% endifequal %}
+            {% ifequal cur_stat 2 %}
+                <option value="2" selected="selected">非置顶</option>
+            {% else %}
+                <option value="2">非置顶</option>
+            {% endifequal %}
+        {% endifequal %}
+
+        {% ifequal cur_flag 2 %}
+            {% ifequal cur_stat 1 %}
+                <option value="1" selected="selected">自编辑</option>
+            {% else %}
+                <option value="1">自编辑</option>
+            {% endifequal %}
+            {% ifequal cur_stat 2 %}
+                <option value="2" selected="selected">外网抓取</option>
+            {% else %}
+                <option value="2">外网抓取</option>
+            {% endifequal %}
+        {% endifequal %}
+
+        {% ifequal cur_flag 3 %}
+            {% ifequal cur_stat 1 %}
+                <option value="1" selected="selected">白菜价</option>
+            {% else %}
+                <option value="1">白菜价</option>
+            {% endifequal %}
+            {% ifequal cur_stat 2 %}
+                <option value="2" selected="selected">全网最低</option>
+            {% else %}
+                <option value="2">全网最低</option>
+            {% endifequal %}
+            {% ifequal cur_stat 3 %}
+                <option value="3" selected="selected">其它</option>
+            {% else %}
+                <option value="3">其它</option>
+            {% endifequal %}
+        {% endifequal %}
+
+    </select>
+    <input type="submit" value="确定">
+</form>
+{% for list in Items %}
+<table border="1">
+    <h1>开始时间({{list.0}})-结束时间({{list.1}})</h1>
+    <tr>
+        <td valign="top"><h2>标题</h2></td>
+        <td valign="top"><h2>发布时间</h2></td>
+        <td valign="top"><h2>状态</h2></td>
+        <td valign="top"><h2>操作</h2></td>
+    </tr>
+<!-- Cycle through entries -->
+    {% for item in list.2 %}
+        <tr>
+            <td valign="top"><p>{{ item.title }}</p></td>
+            <td valign="top"><p1>{{ item.pub_time }}</p1></td>
+            <td valign="top"><p1>{{ item.stat }}</p1></td>
+            <td valign="top">
+                <form method="get" action="/index_detail/?is_same=0">
+                    <input type="hidden" name="id" value="{{ item.id }}">
+                    <input type="hidden" name="cur_stat" value="{{ item.cur_stat }}">
+                    <input type="hidden" name="cur_flag" value="{{ cur_flag }}">
+                    <input type="submit" name="" value="点击编辑">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>真TM划算后台管理</h1>
+<li>
+<a href="/approve/">待发布内容审核</a>
+</li>
+<li>
+<a href="/indexall/">线上发布内容管理</a>
+</li>
+<li>
+<a href="/seckill/">限时秒杀内容管理</a>
+</li>
+<form method = "post" action = "/main/">
+    {% csrf_token %}
+    <input type="submit" value="注销">
+</form>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form method="get" action="/approve/">
+    <h1>审核详情页 <input type="submit" value="返回"></h1>
+    <input type="hidden" name="cur_stat" value="{{item.cur_stat}}">
+</form>
+<h3>信息发布时间：{{item.pub_time}}</h3>
+<h3>信息来源：{{item.crawl_source}}</h3>
+<h3>信息原始链接： <a href="{{item.source_url}}" target="view_window">{{item.source_url}}</a></h3>
+<form method="post" action="/approve_detail/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{item.id}}">
+    <input type="hidden" name="source_url" value="{{item.source_url}}">
+    <input type="hidden" name="cur_stat" value="{{item.cur_stat}}">
+<table border="1">
+    <tr>
+        <td valign="top">
+            <p>相同内容状态：{{item.same_stat}}</p>
+            <p>相同内容链接：</p><a href="{{item.same_source_url}}" target="view_window">{{item.same_source_url}}</a>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>标题：</p>
+            <p1>{{ item.title }}</p1>
+        </td>
+        <td valign="top">
+            <p>请修改标题</p>
+            <textarea type="text" name="title" rows=2 cols=50 required>{{item.title}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"></td>
+        <td valign="top">
+            <p>请添加飘色词（请在写好的标题中选择，每一行为一个词）</p>
+            <textarea type="text" name="flush" rows=5 cols=30 required>{{item.title}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>商城：</p>
+            <p1>{{ item.source }}</p1>
+        </td>
+        <td valign="top">
+            <p>请修改或添加商城（每一行代表一项）</p>
+            <textarea type="text" name="source" rows=2 cols=50 required>{{item.source}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>分类：</p>
+            <p1>{{ item.cat }}</p1>
+        </td>
+        <td valign="top">
+            <p>请修改或添加分类（每一行代表一项）</p>
+            <textarea type="text" name="cat" rows=2 cols=50 required>{{item.cat}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"></td>
+        <td valign="top">
+            <p>请选择真TM划算分类</p>
+            <p1><input type="radio" name="our_cat" value="1" checked="True">白菜价</p1>
+            <p1><input type="radio" name="our_cat" value="2">全网最低</p1>
+            <p1><input type="radio" name="our_cat" value="3">其他</p1>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>描述：</p>
+            <p1>{{ item.desc }}</p1>
+        </td>
+        <td valign="top">
+            <p>请修改或添加描述（每一行代表一段）</p>
+            <textarea type="text" name="desc" rows=10 cols=50 required>{{item.desc}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>描述链接：</p>
+            <ul>
+                {% for desc_link in item.desc_link_show %}
+                <li><a href="{{desc_link.link}}" target="view_window">{{desc_link.desc}}：{{desc_link.link}}</a></li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td valign="top">
+            <p>请修改或添加描述链接（每一行代表一项，请使用描述；链接的方式，要求描述词中不允许出现；）</p>
+            <textarea type="text" name="desc_link" rows=10 cols=50>{{item.desc_link}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>直达链接：</p>
+            <ul>
+            {% for go_link in item.go_link %}
+            <li><a href="{{go_link}}" target="view_window">{{go_link}}</a></li>
+            {% endfor %}
+            </ul>
+        </td>
+        <td valign="top">
+            <p>请修改直达链接（请选择一个链接作为直达链接）</p>
+            <textarea type="text" name="go_link" placeholder="请输入直达链接" rows=1 cols=50 required></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>图片：</p>
+            {% for img in item.img %}
+            <li>
+                <img src="{{img}}"  alt=""/><br />
+                <p1>图片链接：</p1><a href="{{img}}" target="view_window">{{img}}</a>
+            </li>
+            {% endfor %}
+        </td>
+        <td valign="top">
+            <p>请上传图片：</p>
+                <p><input type="file" required name="item_img" /></p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>值：{{item.worth}}</p>
+            <p>不值：{{item.bad}}</p>
+        </td>
+        <td valign="top">
+            <p>请修改值与不值的设定值或保持原值：</p>
+            <ul>
+            <li><input type="text" name="worth" value="{{item.worth}}" required></li>
+                <li><input type="text" name="bad" value="{{item.bad}}" required></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"></td>
+        <td valign="top">
+            <p>请设置是否置顶：</p>
+            <p1><input type="radio" name="up" value="1">置顶</p1>
+            <p1><input type="radio" name="up" value="2" checked="True">非置顶</p1>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"></td>
+        <td valign="top" id="stat">
+            <p>请选择状态：</p>
+            <p1><input type="radio" name="stat" value="1" checked="True">发布上线</p1>
+            <p1><input type="radio" name="stat" value="5" id="pre">发布预上线</p1>
+            <p1><input type="radio" name="stat" value="4" >发布失效</p1>
+            <p1><input type="radio" name="stat" value="3" >删除</p1><br/>
+            <p1>请选择预发布时间：<input type="text" onClick="WdatePicker({minDate:'%y-%M-%d %H-{%m+1}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="preday"></p1>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+        </td>
+        <td valign="top">
+            <input type="submit" value="确定">
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+<script language="javascript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+</html>

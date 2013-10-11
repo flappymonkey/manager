@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form method="get" action="/index/">
+    <h1>Feed详情页 <input type="submit" value="返回"></h1>
+    <input type="hidden" name="cur_stat" value="{{cur_stat}}">
+    <input type="hidden" name="cur_flag" value="{{cur_flag}}">
+</form>
+<form method="post" action="/create_feed/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="cur_stat" value="{{cur_stat}}">
+    <input type="hidden" name="cur_flag" value="{{cur_flag}}">
+    <table border="1">
+        <tr>
+            <td valign="top">
+                <p>标题:</p>
+                <textarea type="text" name="title" rows=2 cols=50 placeholder="标题" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>飘色词（每一行为一个词）:</p>
+                <textarea type="text" name="flush" rows=4 cols=30 placeholder="飘色词（每一行为一个词）" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>描述（每一行代表一段）:</p>
+                <textarea type="text" name="desc" rows=8 cols=100 placeholder="描述（每一行代表一段）" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>描述链接（每一行代表一项，请使用描述；链接的方式；要求描述词中不允许出现；）:</p>
+                <textarea type="text" name="desc_link" rows=8 cols=100 placeholder="描述链接（每一行代表一项，请使用描述：链接的方式；要求描述词中不允许出现：）"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>商城：</p>
+                <textarea type="text" name="source" cols=20 placeholder="商城" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>分类：</p>
+                <textarea type="cat" name="cat" cols=20 placeholder="分类" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>真TM划算分类：</p>
+                <p1><input type="radio" name="our_cat" value="1" checked="True">白菜价</p1>
+                <p1><input type="radio" name="our_cat" value="2">全网最低</p1>
+                <p1><input type="radio" name="our_cat" value="3">其他</p1>
+
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>上传图片：</p>
+                <p><input type="file" required name="item_img" /></p>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>直达链接：</p>
+                <textarea type="cat" name="go_link" cols=100 placeholder="直达链接" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <ul>
+                    <li>值：<input type="text" name="worth" required></li>
+                    <li>不值：<input type="text" name="bad" required></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>选择发布状态：</p>
+                <p1><input type="radio" name="stat" value="1" checked="True">正常发布</p1>
+                <p1><input type="radio" name="stat" value="5">预发布</p1>
+                <br/>
+                <p1>预发布时间：<input type="text" onClick="WdatePicker({minDate:'%y-%M-%d %H-{%m+1}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="preday"></p1>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <p>置顶状态：</p>
+                <p1><input type="radio" name="up" value="1" checked="True">置顶</p1>
+                <p1><input type="radio" name="up" value="2">非置顶</p1>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+<script language="javascript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+</html>

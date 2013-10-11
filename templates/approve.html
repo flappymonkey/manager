@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>抓取内容审核</h1>
+<form method = "get" action = "/main/">
+    {% csrf_token %}
+    <input type="submit" value="返回首页">
+</form>
+<form method = "post" action = "/approve/">
+    {% csrf_token %}
+    <h2>选择状态查询(当前状态为：{{cur_stat_name}}）</h2>
+    <select name="stat">
+        {% ifequal cur_stat 0 %}
+            <option value="0" selected="selected">待发布审核</option>
+        {% else %}
+            <option value="0">待发布审核</option>
+        {% endifequal %}
+        {% ifequal cur_stat 1 %}
+            <option value="1" selected="selected">已发布上线</option>
+        {% else %}
+            <option value="1">已发布上线</option>
+        {% endifequal %}
+        {% ifequal cur_stat 2 %}
+            <option value="2" selected="selected">待失效审核</option>
+        {% else %}
+            <option value="2">待失效审核</option>
+        {% endifequal %}
+        {% ifequal cur_stat 3 %}
+            <option value="3" selected="selected">已删除</option>
+        {% else %}
+            <option value="3">已删除</option>
+        {% endifequal %}
+        {% ifequal cur_stat 4 %}
+            <option value="4" selected="selected">已发布失效</option>
+        {% else %}
+            <option value="4">已发布失效</option>
+        {% endifequal %}
+        {% ifequal cur_stat 5 %}
+        <option value="5" selected="selected">已预发布</option>
+        {% else %}
+        <option value="5">已预发布</option>
+        {% endifequal %}
+    </select>
+    <input type="submit" value="确定">
+</form>
+
+
+<!-- Cycle through entries -->
+{% for list in Items %}
+<table border="1">
+    <h1>开始时间({{list.0}})-结束时间({{list.1}})</h1>
+    <tr>
+        <td valign="top"><h2>标题</h2></td>
+        <td valign="top"><h2>原地址发布时间</h2></td>
+        <td valign="top"><h2>操作</h2></td>
+    </tr>
+    {% for item in list.2 %}
+        <tr>
+            <td valign="top"><p>{{ item.title }}<p></td>
+            <td valign="top"><p1>{{ item.pub_time }}</p1></td>
+            <td valign="top">
+                <form method="get" action="/approve_detail/">
+                    <input type="hidden" name="id" value="{{ item.id }}">
+                    <input type="hidden" name="cur_stat" value="{{ item.cur_stat }}">
+                    <input type="submit" name="" value="点击编辑">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+</body>
+</html>

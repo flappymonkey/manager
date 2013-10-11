@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form method="get" action="/index/">
+<h1>Feed详情页 <input type="submit" value="返回"></h1>
+<input type="hidden" name="cur_stat" value="{{item.cur_stat}}">
+<input type="hidden" name="cur_flag" value="{{item.cur_flag}}">
+</form>
+{% ifequal is_same 1 %}
+<h2>跳转到同直达链接feed<h2/>
+{% endifequal %}
+<h3>信息发布时间：{{item.pub_time}}</h3>
+<h3>信息原始链接：<a href="{{item.source_url}}" target="view_window">{{item.source_url}}</a></h3>
+<form method="post" action="/index_detail/" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{item.id}}">
+    <input type="hidden" name="cur_stat" value="{{item.cur_stat}}">
+    <input type="hidden" name="cur_flag" value="{{item.cur_flag}}">
+<table border="1">
+    <tr>
+        <td valign="top">
+            <p>标题:</p>
+            <textarea type="text" name="title" rows=2 cols=50 required>{{item.title}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>飘色词:</p>
+            <textarea type="text" name="flush" rows=4 cols=30 required>{{item.flush}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>描述:</p>
+            <textarea type="text" name="desc" rows=8 cols=100 required>{{item.desc}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>描述链接:</p>
+            <textarea type="text" name="desc_link" rows=8 cols=100>{{item.desc_link}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>商城：</p>
+            <textarea type="text" name="source" cols=20 required>{{item.source}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>分类（每一行代表一个分类值）：</p>
+            <textarea type="cat" name="cat" cols=20 required>{{item.cat}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            {% ifequal item.our_cat 1 %}
+                <p>当前真TM划算分类：白菜价，可修改状态</p>
+            {% endifequal %}
+            {% ifequal item.our_cat 2 %}
+                <p>当前真TM划算分类：全网最低，可修改状态</p>
+            {% endifequal %}
+            {% ifequal item.our_cat 3 %}
+                <p>当前真TM划算分类：其他，可修改状态</p>
+            {% endifequal %}
+            {% ifequal item.our_cat 1 %}
+                <p1><input type="radio" name="our_cat" value="1" checked="True">白菜价</p1>
+            {% else %}
+                <p1><input type="radio" name="our_cat" value="1">白菜价</p1>
+            {% endifequal %}
+            {% ifequal item.our_cat 2 %}
+                <p1><input type="radio" name="our_cat" value="2" checked="True">全网最低</p1>
+            {% else %}
+                <p1><input type="radio" name="our_cat" value="2">全网最低</p1>
+            {% endifequal %}
+            {% ifequal item.our_cat 3 %}
+                <p1><input type="radio" name="our_cat" value="3" checked="True">其他</p1>
+            {% else %}
+                <p1><input type="radio" name="our_cat" value="3">其他</p1>
+            {% endifequal %}
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>图片</p>
+            {% if item.img %}
+                <img src="{{item.img}}"  alt=""/>
+            {% else %}
+                <p1>未上传图片</p1>
+            {% endif %}
+            <p>重新上传图片：</p>
+            <p><input type="file" name="item_img" /></p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <p>直达链接：<a href="{{item.go_link}}" target="view_window">{{item.go_link}}</a></p>
+            <textarea type="cat" name="go_link"cols=100 required>{{item.go_link}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <ul>
+                <li>值：<input type="text" name="worth" value="{{item.worth}}" required></li>
+                <li>不值：<input type="text" name="bad" value="{{item.bad}}" required></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            {% ifequal item.stat 1 %}
+                <p>当前状态：正常发布，可修改状态</p>
+            {% endifequal %}
+            {% ifequal item.stat 4 %}
+                <p>当前状态：失效，可修改状态</p>
+            {% endifequal %}
+            {% ifequal item.stat 3 %}
+                <p>当前状态：删除，可修改状态</p>
+            {% endifequal %}
+
+            {% ifequal item.stat 1 %}
+                <p1><input type="radio" name="stat" value="1" checked="True">正常发布</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="1">正常发布</p1>
+            {% endifequal %}
+            {% ifequal item.stat 5 %}
+                <p1><input type="radio" name="stat" value="5" checked="True">预发布</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="5">预发布</p1>
+            {% endifequal %}
+            {% ifequal item.stat 4 %}
+                <p1><input type="radio" name="stat" value="4" checked="True">失效</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="4">失效</p1>
+            {% endifequal %}
+            {% ifequal item.stat 3 %}
+                <p1><input type="radio" name="stat" value="3" checked="True">删除</p1>
+            {% else %}
+                <p1><input type="radio" name="stat" value="3">删除</p1>
+            {% endifequal %}
+            <br/>
+                <p1>发布时间：<input type="text" value="{{item.pub_time}}" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="pubday"></p1>
+                <br/>
+                <p1>预发布时间：<input type="text" value="{{item.pre_pub_time}}" onClick="WdatePicker({minDate:'%y-%M-%d %H-{%m+1}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" name="preday"></p1>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            {% ifequal item.up 1 %}
+                <p>置顶状态：置顶，可修改状态</p>
+            {% endifequal %}
+            {% ifequal item.up 2 %}
+                <p>置顶状态：非置顶，可修改状态</p>
+            {% endifequal %}
+
+            {% ifequal item.up 1 %}
+                <p1><input type="radio" name="up" value="1" checked="True">置顶</p1>
+            {% else %}
+                <p1><input type="radio" name="up" value="1">置顶</p1>
+            {% endifequal %}
+            {% ifequal item.up 2 %}
+                <p1><input type="radio" name="up" value="2" checked="True">非置顶</p1>
+            {% else %}
+                <p1><input type="radio" name="up" value="2">非置顶</p1>
+            {% endifequal %}
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <input type="submit" value="提交">
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+<script language="javascript" type="text/javascript" src="/js/My97DatePicker/WdatePicker.js"></script>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link href="{{STATIC_URL}}item.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>限时秒杀内容列表</h1>
+<form method = "get" action = "/main/">
+    {% csrf_token %}
+    <input type="submit" value="返回首页">
+</form>
+<form method = "get" action = "/create_seckill/">
+    {% csrf_token %}
+    <input type="submit" value="创建限时秒杀">
+    <input type="hidden" name="cur_stat" value="{{ cur_stat }}"/>
+    <input type="hidden" name="sort_flag" value="{{ sort_flag }}"/>
+</form>
+
+<form method = "post" action = "/seckill/">
+    {% csrf_token %}
+    <p>输入直达url链接搜索：</p>
+    <p>
+        <input style="width:80%" type="text" name="search_url" value="">
+        <input type="submit" value="搜索">
+    </p>
+    <input type="hidden" name="stat" value="{{ cur_stat }}"/>
+    <input type="hidden" name="sort_flag" value="{{ sort_flag }}"/>
+    <input type="hidden" name="is_search" value="1"/>
+</form>
+<form method = "post" action = "/seckill/">
+    {% csrf_token %}
+    <input type="hidden" name="is_search" value="0"/>
+    <select name="stat">
+        {% ifequal cur_stat 1 %}
+            <option value="1" selected="selected">即将开始</option>
+        {% else %}
+            <option value="1">即将开始</option>
+        {% endifequal %}
+        {% ifequal cur_stat 2 %}
+            <option value="2" selected="selected">进行中</option>
+        {% else %}
+            <option value="2">进行中</option>
+        {% endifequal %}
+        {% ifequal cur_stat 3 %}
+            <option value="3" selected="selected">已失效</option>
+        {% else %}
+            <option value="3">已失效</option>
+        {% endifequal %}
+        {% ifequal cur_stat 4 %}
+            <option value="4" selected="selected">已删除</option>
+        {% else %}
+            <option value="4">已删除</option>
+        {% endifequal %}
+    </select>
+    <select name="sort_flag">
+        {% ifequal sort_flag 1 %}
+            <option value="1" selected="selected">按价格排序</option>
+        {% else %}
+            <option value="1">按价格排序</option>
+        {% endifequal %}
+        {% ifequal sort_flag 2 %}
+            <option value="2" selected="selected">按销售进度排序</option>
+        {% else %}
+            <option value="2">按销售进度排序</option>
+        {% endifequal %}
+        {% ifequal sort_flag 3 %}
+            <option value="3" selected="selected">按开始时间排序</option>
+        {% else %}
+            <option value="3">按开始时间排序</option>
+        {% endifequal %}
+    </select>
+    <input type="submit" value="确定">
+</form>
+{% for item_list in Items %}
+    <h1>状态：{{item_list.0}}</h1>
+<table border="1">
+    <tr>
+        <td valign="top"><h2>标题</h2></td>
+        <td valign="top"><h2>来源</h2></td>
+        <td valign="top"><h2>现价</h2></td>
+        <td valign="top"><h2>折扣</h2></td>
+        <td valign="top"><h2>商品限量</h2></td>
+        <td valign="top"><h2>售卖进度</h2></td>
+        <td valign="top"><h2>开始时间</h2></td>
+        <td valign="top"><h2>结束时间</h2></td>
+        <td valign="top"><h2>操作</h2></td>
+    </tr>
+{% for item in item_list.1 %}
+    <!-- Cycle through entries -->
+    <tr>
+        <td valign="top"><p>{{ item.title }}</p></td>
+        <td valign="top"><p1>{{ item.source }}</p1></td>
+        <td valign="top"><p1>{{ item.cur_price }}</p1></td>
+        <td valign="top"><p1>{{ item.discount }}</p1></td>
+        {% ifequal item.limit -1 %}
+            <td valign="top"><p1>未知</p1></td>
+        {% else %}
+            {% ifequal item.limit 0 %}
+                <td valign="top"><p1>无限制</p1></td>
+            {% else %}
+                <td valign="top"><p1>{{ item.limit }}</p1></td>
+            {% endifequal %}
+        {% endifequal %}
+
+        {% ifequal item.sale_percent -1 %}
+            <td valign="top"><p1>未知</p1></td>
+        {% else %}
+            <td valign="top"><p1>{{ item.sale_percent }}</p1></td>
+        {% endifequal %}
+        <td valign="top"><p1>{{ item.time_begin }}</p1></td>
+        <td valign="top"><p1>{{ item.time_end }}</p1></td>
+        <td>
+        <form method="get" action="/seckill_detail/">
+            <input type="hidden" name="id" value="{{ item.id }}">
+            <input type="hidden" name="cur_stat" value="{{ cur_stat }}">
+            <input type="hidden" name="sort_flag" value="{{ sort_flag }}">
+            <input type="submit" name="" value="点击编辑">
+        </form>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+{% endfor %}
+</body>
+</html>
